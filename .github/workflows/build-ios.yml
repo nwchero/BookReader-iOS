@@ -1,0 +1,117 @@
+name: Build iOS IPA
+
+on:
+  push:
+    branches: [main, develop]
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      sign_ipa:
+        description: '是否签名 IPA（需要配置 Secrets）'
+        required: true
+        default: 'true'
+        type: boolean
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies (SwiftSoup)
+        run: |
+          cd BookReader
+          swift package resolve || true
+          echo "Dependencies resolved"
+
+      - name: Xcode Version
+        run: xcodebuild -version
+
+      - name: Build IPA (Unsigned)
+        run: |
+          cd BookReader.xcodeproj
+          xcodebuild \
+            -project ../BookReader.xcodeproj/project.pbxproj \
+            -scheme BookReader \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath ../build \
+            CODE_SIGNING_ALLOWED=NO \
+            clean build
+
+      - name: Export Unsigned IPA
+        run: |
+          mkdir -p output
+          cd build/Build/Products/Release-iphoneos
+          if [ -d "BookReader.app" ]; then
+            zip -r ../../../../output/BookReader-unsigned.ipa Payload/
+            mv Payload BookReader.app/Payload 2>/dev/null || true
+            cd ..
+            if [ ! -f "../../output/BookReader-unsigned.ipa" ]; then
+              # Create IPA from .app bundle
+              mkdir -p /tmp/ipa-build/Payload
+              cp -r "Build/Products/Release-iphoneos/BookReader.app" /tmp/ipa-build/Payload/
+              cd /tmp/ipa-build && zip -r /workspace/BookReader-iOS/output/BookReader-unsigned.ipa Payload
+            fi
+          fi
+
+      - name: Sign IPA (Optional)
+        if: github.event.inputs.sign_ipa == 'true' && secrets.BASE64_CERTIFICATE != ''
+        env:
+          BASE64_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE_BASE64 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          # Create temporary keychain
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # Import certificate
+          CERTIFICATE_PATH=$RUNNER_TEMP/certificate.p12
+          echo -n "$BASE64_CERTIFICATE" | base64 --decode > $CERTIFICATE_PATH
+          security import "$CERTIFICATE_PATH" -P "$CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+          # Import provisioning profile
+          PROFILE_PATH=$RUNNER_TEMP/profile.mobileprovision
+          echo -n "$PROVISIONING_PROFILE_BASE64" | base64 --decode > $PROFILE_PATH
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles/
+
+          # Resign the IPA
+          pip3 install auto-sign-ipa 2>/dev/null || true
+          # Use codesign to resign
+          cd output
+          unzip -qo BookReader-unsigned.ipa -d unsigned_app
+          # Find and sign all frameworks and app
+          find unsigned_app/Payload -name "*.dylib" -o -name "*.framework" | while read f; do
+            codesign --force --sign "$(security find-identity -v -p codesigning | head -1 | awk -F'"' '{print $2}')" "$f"
+          done
+          codesign --force --sign "$(security find-identity -v -p codesigning | head -1 | awk -F'"' '{print $2}')" --entitlements ../BookReader/BookReader.entitlements unsigned_app/Payload/BookReader.app
+          # Repack IPA
+          cd unsigned_app && zip -rq ../BookReader-signed.ipa Payload && cd ..
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BookReader-iOS-${{ github.run_id }}
+          path: output/*.ipa
+          retention-days: 30
+
+      - name: Release Summary
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          echo "## 📱 iOS 构建完成" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| 项目 | 详情 |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **版本** | ${{ github.ref_name }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **构建ID** | \`${{ github.run_id }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **时间** | $(date '+%Y-%m-%d %H:%M:%S') |" >> $GITHUB_STEP_SUMMARY
+          echo "| **下载** | 查看 Artifacts 区域 |" >> $GITHUB_STEP_SUMMARY
