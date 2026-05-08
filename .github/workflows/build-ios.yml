@@ -12,98 +12,72 @@ on:
 jobs:
   build:
     runs-on: macos-latest
-    timeout-minutes: 45
+    timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Install xcodegen
-        run: brew install xcodegen 2>/dev/null || true
+        run: |
+          brew update || true
+          brew install xcodegen || true
+          xcodegen version
 
       - name: Generate Xcode Project
-        working-directory: BookReader
-        run: |
-          cat > project.yml << 'EOF'
-          name: BookReader
-          options:
-            bundleIdPrefix: com.bookreader
-            deploymentTarget:
-              iOS: "16.0"
-            xcodeVersion: "15.0"
-          settings:
-            base:
-              SWIFT_VERSION: "5.9"
-              MARKETING_VERSION: "1.0.0"
-              PRODUCT_BUNDLE_IDENTIFIER: "com.bookreader.app"
-              INFOPLIST_KEY_UIApplicationSceneManifest_Generation: "YES"
-              CODE_SIGN_IDENTITY: "-"
-              CODE_SIGNING_REQUIRED: "NO"
-              DEVELOPMENT_TEAM: ""
-          targets:
-            BookReader:
-              type: application
-              platform: iOS
-              sources:
-                - path: .
-                  excludes:
-                    - "**/*.xcassets"
-                    - "**/default_sources.json"
-              resources:
-                - path: Assets.xcassets
-              dependencies:
-                - package: https://github.com/scinfu/SwiftSoup.git
-                  from: "2.6.1"
-          EOF
-          xcodegen generate
-
-      - name: Resolve Dependencies
         run: |
           cd BookReader
-          for i in 1 2 3; do
-            echo "Attempt $i to resolve dependencies..."
-            if xcodebuild -resolvePackageDependencies \
-              -project ../BookReader.xcodeproj/project.pbxproj \
-              -scheme BookReader \
-              -platform iOS \
-              -list 2>&1; then
-              echo "Dependencies resolved successfully"
-              break
-            else
-              echo "Attempt $i failed, retrying in 10 seconds..."
-              sleep 10
-            fi
-          done
+          echo "=== Current directory: $(pwd) ==="
+          echo "=== Files ==="
+          ls -la
+          echo "=== project.yml exists? ==="
+          test -f project.yml && echo "YES" || echo "NO"
+          if [ -f project.yml ]; then
+            echo "=== project.yml content (first 20 lines) ==="
+            head -20 project.yml
+          fi
+          echo "=== Running xcodegen generate ==="
+          xcodegen generate --verbose 2>&1
+          EC=$?
+          echo "=== xcodegen exit code: $EC ==="
+          echo "=== Generated files ==="
+          ls -la *.xcodeproj 2>/dev/null || echo "No .xcodeproj found"
+          exit $EC
 
-      - name: Build App
+      - name: Build
         run: |
+          set -x
           cd BookReader
-          xcodebuild \
-            -project BookReader.xcodeproj \
+          xcodebuild -project BookReader.xcodeproj \
             -scheme BookReader \
             -configuration Release \
             -sdk iphoneos \
             -derivedDataPath ../build \
             CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGN_IDENTITY="-" \
-            PROVISIONING_PROFILE_SPECIFIER="" \
-            -jobs 4 \
-            build 2>&1 | tail -50 || true
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            DEVELOPMENT_TEAM="" \
+            clean build 2>&1 | tee ../build.log | tail -60
+          echo "=== BUILD EXIT CODE: $? ==="
 
       - name: Package IPA
         if: always()
         run: |
           mkdir -p output
-          APP=$(find BookReader/build -name "BookReader.app" -type d 2>/dev/null | head -1)
-          if [ -n "$APP" ]; then
+          APP=$(find build -name "BookReader.app" -type d 2>/dev/null | head -1)
+          echo "APP path: ${APP:-NOT FOUND}"
+          if [ -n "$APP" ] && [ -d "$APP" ]; then
+            echo "Found app, packaging IPA..."
             mkdir -p /tmp/ipa/Payload
             cp -R "$APP" /tmp/ipa/Payload/
-            cd /tmp/ipa && zip -rq $GITHUB_WORKSPACE/output/BookReader.ipa Payload/
-            echo "IPA created!"
-            ls -lh $GITHUB_WORKSPACE/output/BookReader.ipa
+            cd /tmp/ipa && zip -rq "$GITHUB_WORKSPACE/output/BookReader.ipa" Payload/
+            echo "IPA created successfully!"
+            ls -lh "$GITHUB_WORKSPACE/output/BookReader.ipa"
           else
-            echo "Build may have failed, checking logs..."
-            find BookReader/build -type f 2>/dev/null | head -10
-            find BookReader -type d -name "*.app" 2>/dev/null
+            echo "Build failed, no .app found"
+            find build -name "*.app" -type d 2>/dev/null | head -5
+            tail -100 build.log 2>/dev/null || echo "No build log available"
+            echo "BUILD_FAILED" > output/status.txt
           fi
 
       - uses: actions/upload-artifact@v4
