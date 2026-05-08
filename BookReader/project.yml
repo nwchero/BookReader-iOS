@@ -18,6 +18,10 @@ settings:
     CODE_SIGNING_ALLOWED: "NO"
     DEVELOPMENT_TEAM: ""
     TARGETED_DEVICE_FAMILY: "1,2"
+packages:
+  SwiftSoup:
+    url: https://github.com/scinfu/SwiftSoup.git
+    from: "2.6.1"
 targets:
   BookReader:
     type: application
@@ -34,8 +38,8 @@ targets:
       - path: default_sources.json
         buildPhase: resources
     dependencies:
-      - package: https://github.com/scinfu/SwiftSoup
-        from: "2.6.1"
+      - package: SwiftSoup
+        product: SwiftSoup
     settings:
       base:
         PRODUCT_NAME: BookReader
