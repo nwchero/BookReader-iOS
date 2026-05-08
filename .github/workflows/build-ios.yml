@@ -20,27 +20,24 @@ jobs:
 
       - name: Download SwiftSoup Source
         run: |
-          echo "=== Downloading SwiftSoup ==="
           mkdir -p BookReader/SwiftSoup
           cd BookReader/SwiftSoup
-          files="Cleaner Color Entities Exception Formatter Node Parse PseudoRegex Request Safety Select SwiftSoup Traverse Util Vector"
-          for name in $files; do
-            curl -sL "https://raw.githubusercontent.com/scinfu/SwiftSoup/2.6.1/Sources/SwiftSoup/${name}.swift" -o "${name}.swift" 2>/dev/null || echo "Failed: ${name}"
+          for f in Cleaner Color Entities Exception Formatter Node Parse PseudoRegex Request Safety Select SwiftSoup Traverse Util Vector; do
+            curl -sL "https://raw.githubusercontent.com/scinfu/SwiftSoup/2.6.1/Sources/SwiftSoup/${f}.swift" -o "${f}.swift"
           done
-          curl -sL "https://raw.githubusercontent.com/scinfu/SwiftSoup/2.6.1/Sources/SwiftSoup/String+Extension.swift" -o "String+Extension.swift" 2>/dev/null || echo "Failed StringExt"
-          echo "=== Files downloaded: $(ls *.swift 2>/dev/null | wc -l) ==="
-          ls -la
+          curl -sL "https://raw.githubusercontent.com/scinfu/SwiftSoup/2.6.1/Sources/SwiftSoup/String+Extension.swift" -o "String+Extension.swift"
+          echo "SwiftSoup: $(ls *.swift 2>/dev/null | wc -l) files"
 
       - name: Generate Xcode Project
         run: |
           python3 generate_project.py
-          echo "=== Verifying project ==="
-          test -f BookReader/BookReader.xcodeproj/project.pbxproj && echo "OK: pbxproj exists" || { echo "FAIL: no pbxproj"; exit 1; }
-          wc -l BookReader/BookReader.xcodeproj/project.pbxproj
+          test -f BookReader/BookReader.xcodeproj/project.pbxproj || { echo "NO PBXPROJ"; exit 1; }
+          test -f BookReader/BookReader.xcodeproj/xcshareddata/xcschemes/BookReader.xcscheme || { echo " NO SCHEME"; exit 1; }
+          echo "Project files OK"
+          xcodebuild -project BookReader/BookReader.xcodeproj -list 2>&1
 
       - name: Build
         run: |
-          set -x
           cd BookReader
           xcodebuild -project BookReader.xcodeproj \
             -scheme BookReader \
@@ -51,10 +48,8 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
             DEVELOPMENT_TEAM="" \
-            clean build 2>&1 | tee ../build.log | tail -80
-          RET=$?
-          echo "BUILD_EXIT_CODE=$RET"
-          exit $RET
+            clean build 2>&1 | tee ../build.log
+          echo "EXIT_CODE=$?"
 
       - name: Package IPA
         if: always()
@@ -65,10 +60,11 @@ jobs:
             mkdir -p /tmp/ipa/Payload
             cp -R "$APP" /tmp/ipa/Payload/
             cd /tmp/ipa && zip -rq "$GITHUB_WORKSPACE/output/BookReader.ipa" Payload/
-            echo "IPA OK: $(ls -lh $GITHUB_WORKSPACE/output/BookReader.ipa)"
+            echo "IPA_OK $(ls -lh $GITHUB_WORKSPACE/output/BookReader.ipa 2>/dev/null)"
           else
-            echo "NO_APP_FOUND"
-            tail -200 build.log 2>/dev/null > output/build_log.txt || true
+            echo "NO_APP"
+            wc -l build.log 2>/dev/null
+            tail -100 build.log 2>/dev/null > output/build_log.txt
             echo "FAILED" > output/status.txt
           fi
 
