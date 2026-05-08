@@ -18,31 +18,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install xcodegen
+      - name: Download SwiftSoup Source
         run: |
-          brew update || true
-          brew install xcodegen || true
-          xcodegen version
+          echo "=== Downloading SwiftSoup ==="
+          mkdir -p BookReader/SwiftSoup
+          cd BookReader/SwiftSoup
+          files="Cleaner Color Entities Exception Formatter Node Parse PseudoRegex Request Safety Select SwiftSoup Traverse Util Vector"
+          for name in $files; do
+            curl -sL "https://raw.githubusercontent.com/scinfu/SwiftSoup/2.6.1/Sources/SwiftSoup/${name}.swift" -o "${name}.swift" 2>/dev/null || echo "Failed: ${name}"
+          done
+          curl -sL "https://raw.githubusercontent.com/scinfu/SwiftSoup/2.6.1/Sources/SwiftSoup/String+Extension.swift" -o "String+Extension.swift" 2>/dev/null || echo "Failed StringExt"
+          echo "=== Files downloaded: $(ls *.swift 2>/dev/null | wc -l) ==="
+          ls -la
 
       - name: Generate Xcode Project
         run: |
-          cd BookReader
-          echo "=== Current directory: $(pwd) ==="
-          echo "=== Files ==="
-          ls -la
-          echo "=== project.yml exists? ==="
-          test -f project.yml && echo "YES" || echo "NO"
-          if [ -f project.yml ]; then
-            echo "=== project.yml content (first 20 lines) ==="
-            head -20 project.yml
-          fi
-          echo "=== Running xcodegen generate ==="
-          xcodegen generate 2>&1
-          EC=$?
-          echo "=== xcodegen exit code: $EC ==="
-          echo "=== Generated files ==="
-          ls -la *.xcodeproj 2>/dev/null || echo "No .xcodeproj found"
-          exit $EC
+          python3 generate_project.py
+          echo "=== Verifying project ==="
+          test -f BookReader/BookReader.xcodeproj/project.pbxproj && echo "OK: pbxproj exists" || { echo "FAIL: no pbxproj"; exit 1; }
+          wc -l BookReader/BookReader.xcodeproj/project.pbxproj
 
       - name: Build
         run: |
@@ -57,27 +51,25 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
             DEVELOPMENT_TEAM="" \
-            clean build 2>&1 | tee ../build.log | tail -60
-          echo "=== BUILD EXIT CODE: $? ==="
+            clean build 2>&1 | tee ../build.log | tail -80
+          RET=$?
+          echo "BUILD_EXIT_CODE=$RET"
+          exit $RET
 
       - name: Package IPA
         if: always()
         run: |
           mkdir -p output
           APP=$(find build -name "BookReader.app" -type d 2>/dev/null | head -1)
-          echo "APP path: ${APP:-NOT FOUND}"
           if [ -n "$APP" ] && [ -d "$APP" ]; then
-            echo "Found app, packaging IPA..."
             mkdir -p /tmp/ipa/Payload
             cp -R "$APP" /tmp/ipa/Payload/
             cd /tmp/ipa && zip -rq "$GITHUB_WORKSPACE/output/BookReader.ipa" Payload/
-            echo "IPA created successfully!"
-            ls -lh "$GITHUB_WORKSPACE/output/BookReader.ipa"
+            echo "IPA OK: $(ls -lh $GITHUB_WORKSPACE/output/BookReader.ipa)"
           else
-            echo "Build failed, no .app found"
-            find build -name "*.app" -type d 2>/dev/null | head -5
-            tail -100 build.log 2>/dev/null || echo "No build log available"
-            echo "BUILD_FAILED" > output/status.txt
+            echo "NO_APP_FOUND"
+            tail -200 build.log 2>/dev/null > output/build_log.txt || true
+            echo "FAILED" > output/status.txt
           fi
 
       - uses: actions/upload-artifact@v4
