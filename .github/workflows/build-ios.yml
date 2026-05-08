@@ -18,31 +18,77 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download SwiftSoup Source
+      - name: Environment Info
         run: |
-          mkdir -p BookReader/SwiftSoup
-          cd BookReader/SwiftSoup
-          for f in Cleaner Color Entities Exception Formatter Node Parse PseudoRegex Request Safety Select SwiftSoup Traverse Util Vector; do
-            curl -sL "https://raw.githubusercontent.com/scinfu/SwiftSoup/2.6.1/Sources/SwiftSoup/${f}.swift" -o "${f}.swift"
-          done
-          curl -sL "https://raw.githubusercontent.com/scinfu/SwiftSoup/2.6.1/Sources/SwiftSoup/String+Extension.swift" -o "String+Extension.swift"
-          echo "SwiftSoup: $(ls *.swift 2>/dev/null | wc -l) files"
+          echo "=== Xcode ==="
+          xcodebuild -version
+          echo "=== Swift ==="
+          swift --version
+          echo "=== Python ==="
+          python3 --version
+          echo "=== Working Dir ==="
+          pwd
+          echo "=== Files ==="
+          ls -la
+          echo "=== BookReader dir ==="
+          ls -la BookReader/ | head -20
 
-      - name: Generate Xcode Project
+      - name: Install xcodegen via Mint
+        run: |
+          brew install mint 2>/dev/null || true
+          which mint && mint --version || echo "mint not available"
+          brew install xcodegen 2>/dev/null || true
+          which xcodegen && xcodegen version || echo "xcodegen not in PATH after brew"
+          # Try direct download as fallback
+          if ! which xcodegen >/dev/null 2>&1; then
+            curl -sL "https://github.com/yonaskolb/XcodeGen/releases/download/2.42.0/xcodegen.zip" -o /tmp/xcodegen.zip
+            unzip -o -q /tmp/xcodegen.zip -d /usr/local/bin/ 2>/dev/null || true
+            chmod +x /usr/local/bin/xcodegen 2>/dev/null || true
+            which xcodegen && xcodegen version || echo "still not found"
+          fi
+
+      - name: Try xcodegen with committed project.yml
         run: |
           set +e
-          python3 generate_project.py 2>&1
-          echo "---"
-          echo "pbxproj: $(test -f BookReader/BookReader.xcodeproj/project.pbxproj && echo EXISTS || echo MISSING)"
-          echo "scheme: $(test -f BookReader/BookReader.xcodeproj/xcshareddata/xcschemes/BookReader.xcscheme && echo EXISTS || echo MISSING)"
-          echo "---"
-          echo "xcodebuild -list output:"
-          xcodebuild -project BookReader/BookReader.xcodeproj -list 2>&1 || echo "(xcodebuild -list failed, continuing anyway)"
+          echo "=== project.yml exists? ==="
+          test -f BookReader/project.yml && echo "YES" || echo "NO - checking location..."
+          find . -name "project.yml" 2>/dev/null
+          echo "=== project.yml content ==="
+          cat BookReader/project.yml 2>/dev/null || echo "CANNOT READ"
+          echo ""
+          echo "=== Trying xcodegen generate ==="
+          cd BookReader
+          xcodegen generate 2>&1
+          XG_EXIT=$?
+          echo ""
+          echo "=== xcodegen exit code: $XG_EXIT ==="
+          echo "=== Files after xcodegen ==="
+          ls -la *.xcodeproj 2>/dev/null || echo "No .xcodeproj generated"
+          set -e
+
+      - name: Fallback: Python Generator
+        if: always()
+        run: |
+          set +e
+          echo "=== Checking if .xcodeproj already exists ==="
+          if [ -f BookReader/BookReader.xcodeproj/project.pbxproj ]; then
+            echo "Already have .xcodeproj from xcodegen!"
+            wc -l BookReader/BookReader.xcodeproj/project.pbxproj
+          else
+            echo "No .xcodeproj, using Python generator..."
+            python3 generate_project.py 2>&1
+          fi
+          echo "=== Final check ==="
+          test -f BookReader/BookReader.xcodeproj/project.pbxproj && echo "pbxproj OK" || echo "NO PBXPROJ"
+          test -f BookReader/BookReader.xcodeproj/xcshareddata/xcschemes/BookReader.xcscheme && echo "scheme OK" || echo "NO SCHEME"
+          echo "=== xcodebuild -list ==="
+          cd BookReader && xcodebuild -project BookReader.xcodeproj -list 2>&1 || echo "(list failed)"
           set -e
 
       - name: Build
         run: |
           cd BookReader
+          echo "=== Starting build at $(date) ==="
           xcodebuild -project BookReader.xcodeproj \
             -scheme BookReader \
             -configuration Release \
@@ -53,7 +99,11 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             DEVELOPMENT_TEAM="" \
             clean build 2>&1 | tee ../build.log
-          echo "EXIT_CODE=$?"
+          BUILD_RESULT=$?
+          echo "=== Build finished at $(date) ==="
+          echo "EXIT_CODE=$BUILD_RESULT"
+          echo "=== build.log lines: $(wc -l < ../build.log 2>/dev/null || echo 0) ==="
+          exit $BUILD_RESULT
 
       - name: Package IPA
         if: always()
@@ -61,14 +111,15 @@ jobs:
           mkdir -p output
           APP=$(find build -name "BookReader.app" -type d 2>/dev/null | head -1)
           if [ -n "$APP" ] && [ -d "$APP" ]; then
+            APP_SIZE=$(du -sh "$APP" | cut -f1)
             mkdir -p /tmp/ipa/Payload
             cp -R "$APP" /tmp/ipa/Payload/
             cd /tmp/ipa && zip -rq "$GITHUB_WORKSPACE/output/BookReader.ipa" Payload/
-            echo "IPA_OK $(ls -lh $GITHUB_WORKSPACE/output/BookReader.ipa 2>/dev/null)"
+            echo "IPA_OK size=$(ls -lh $GITHUB_WORKSPACE/output/BookReader.ipa 2>/dev/null | awk '{print $5}') app_size=$APP_SIZE"
           else
-            echo "NO_APP_FOUND"
-            tail -200 build.log 2>/dev/null > output/build_log.txt || true
-            echo "FAILED" > output/status.txt
+            echo "NO_APP_FOUND after build"
+            tail -300 build.log 2>/dev/null > output/build_log.txt || true
+            echo "BUILD_FAILED" > output/status.txt
           fi
 
       - uses: actions/upload-artifact@v4
