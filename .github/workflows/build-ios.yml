@@ -37,7 +37,7 @@ jobs:
             head -20 project.yml
           fi
           echo "=== Running xcodegen generate ==="
-          xcodegen generate --verbose 2>&1
+          xcodegen generate 2>&1
           EC=$?
           echo "=== xcodegen exit code: $EC ==="
           echo "=== Generated files ==="
