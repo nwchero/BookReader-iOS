@@ -34,7 +34,7 @@ targets:
       - path: default_sources.json
         buildPhase: resources
     dependencies:
-      - package: https://github.com/scinfu/SwiftSoup.git
+      - package: https://github.com/scinfu/SwiftSoup
         from: "2.6.1"
     settings:
       base:
