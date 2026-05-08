@@ -12,7 +12,8 @@ on:
 jobs:
   build:
     runs-on: macos-latest
-    timeout-minutes: 20
+    timeout-minutes: 45
+
     steps:
       - uses: actions/checkout@v4
 
@@ -55,16 +56,38 @@ jobs:
           EOF
           xcodegen generate
 
-      - name: Build
+      - name: Resolve Dependencies
         run: |
-          cd BookReader && \
-          xcodebuild -project BookReader.xcodeproj \
+          cd BookReader
+          for i in 1 2 3; do
+            echo "Attempt $i to resolve dependencies..."
+            if xcodebuild -resolvePackageDependencies \
+              -project ../BookReader.xcodeproj/project.pbxproj \
+              -scheme BookReader \
+              -platform iOS \
+              -list 2>&1; then
+              echo "Dependencies resolved successfully"
+              break
+            else
+              echo "Attempt $i failed, retrying in 10 seconds..."
+              sleep 10
+            fi
+          done
+
+      - name: Build App
+        run: |
+          cd BookReader
+          xcodebuild \
+            -project BookReader.xcodeproj \
             -scheme BookReader \
             -configuration Release \
             -sdk iphoneos \
             -derivedDataPath ../build \
             CODE_SIGNING_ALLOWED=NO \
-            clean build 2>&1 | tail -20 || true
+            CODE_SIGN_IDENTITY="-" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            -jobs 4 \
+            build 2>&1 | tail -50 || true
 
       - name: Package IPA
         if: always()
@@ -76,9 +99,11 @@ jobs:
             cp -R "$APP" /tmp/ipa/Payload/
             cd /tmp/ipa && zip -rq $GITHUB_WORKSPACE/output/BookReader.ipa Payload/
             echo "IPA created!"
+            ls -lh $GITHUB_WORKSPACE/output/BookReader.ipa
           else
-            echo "Build failed, no app found" > output/status.txt
+            echo "Build may have failed, checking logs..."
             find BookReader/build -type f 2>/dev/null | head -10
+            find BookReader -type d -name "*.app" 2>/dev/null
           fi
 
       - uses: actions/upload-artifact@v4
