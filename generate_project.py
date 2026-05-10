@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
 """Generate a complete valid Xcode project for BookReader iOS app."""
 
-import os, sys, uuid, json
+import os, sys, uuid
 
 def uid(s=''):
     return str(uuid.uuid4()).replace('-','').upper()[:24] + s
-
-def quote_val(v):
-    return f'"{v}"'
 
 def main():
     proj_path = "BookReader"
@@ -45,67 +42,44 @@ def main():
     
     for sf in swift_files:
         fu=uid('f'); bu=uid('b')
-        FR[fu]=f'isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = {sf}; sourceTree = "<group>";'
-        BF[bu]=f'isa = PBXBuildFile; fileRef = {fu};'
+        FR[fu]={'isa':'PBXFileReference','lastKnownFileType':'sourcecode.swift','path':sf,'sourceTree':'<group>'}
+        BF[bu]={'isa':'PBXBuildFile','fileRef':fu}
         files_list.append(bu)
     
     for sf in ss_files:
         fu=uid('f'); bu=uid('b')
-        FR[fu]=f'isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = {sf}; sourceTree = "<group>";'
-        BF[bu]=f'isa = PBXBuildFile; fileRef = {fu};'
+        FR[fu]={'isa':'PBXFileReference','lastKnownFileType':'sourcecode.swift','path':sf,'sourceTree':'<group>'}
+        BF[bu]={'isa':'PBXBuildFile','fileRef':fu}
         files_list.append(bu)
     
-    assets_bf = None
+    assets_fu = None
     if assets_ref:
         au=uid('f'); abu=uid('b')
-        FR[au]=f'isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = {assets_ref}; sourceTree = "<group>";'
-        BF[abu]=f'isa = PBXBuildFile; fileRef = {au};'
-        assets_bf = abu
+        FR[au]={'isa':'PBXFileReference','lastKnownFileType':'folder.assetcatalog','path':assets_ref,'sourceTree':'<group>'}
+        BF[abu]={'isa':'PBXBuildFile','fileRef':au}
+        files_list.append(abu)
     
-    resources_list = [assets_bf] if assets_bf else []
-    
-    sju = None
     if sj_ref:
         sju=uid('f')
-        FR[sju]=f'isa = PBXFileReference; lastKnownFileType = text.json; path = {sj_ref}; sourceTree = "<group>";'
+        FR[sju]={'isa':'PBXFileReference','lastKnownFileType':'text.json','path':sj_ref,'sourceTree':'<group>'}
     
     PR=uid('F')
-    FR[PR]=f'isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = {name}.app; sourceTree = BUILT_PRODUCTS_DIR;'
+    FR[PR]={'isa':'PBXFileReference','explicitFileType':'wrapper.application','includeInIndex':0,'path':f'{name}.app','sourceTree':'BUILT_PRODUCTS_DIR'}
     
-    def build_settings(cfg='Debug'):
-        opts = '-Onone' if cfg == 'Debug' else '-O'
-        return (
-            f'CODE_SIGN_IDENTITY = -; '
-            f'CODE_SIGNING_ALLOWED = NO; '
-            f'CURRENT_PROJECT_VERSION = 1; '
-            f'GENERATE_INFOPLIST_FILE = YES; '
-            f'INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; '
-            f'INFOPLIST_KEY_UILaunchScreen_Generation = YES; '
-            f'INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"; '
-            f'INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait"; '
-            f'IPHONEOS_DEPLOYMENT_TARGET = 16.0; '
-            f'MARKETING_VERSION = 1.0.0; '
-            f'PRODUCT_BUNDLE_IDENTIFIER = com.bookreader.app; '
-            f'PRODUCT_NAME = "$(TARGET_NAME)"; '
-            f'SWIFT_EMIT_LOC_STRINGS = YES; '
-            f'SWIFT_OPTIMIZATION_LEVEL = {opts}; '
-            f'SWIFT_VERSION = 5.9; '
-            f'TARGETED_DEVICE_FAMILY = "1,2";'
-        )
+    def fmt_val(v):
+        if isinstance(v, bool):
+            return 'YES' if v else 'NO'
+        if isinstance(v, int):
+            return str(v)
+        if isinstance(v, list):
+            return '(' + ' '.join(v) + ')'
+        return f'"{v}"'
     
-    def write_obj(f, oid, content):
-        f.write(f'\t\t{oid} = {{ {content} }};\n')
-    
-    def write_dict(f, oid, d):
-        parts = [f'isa = {d["isa"]}']
+    def fmt_obj(d, indent=3):
+        parts = []
         for k, v in d.items():
-            if k == 'isa': continue
-            if isinstance(v, str):
-                parts.append(f'{k} = {v};')
-            elif isinstance(v, list):
-                items = ' '.join(v)
-                parts.append(f'{k} = ({items});')
-        f.write(f'\t\t{oid} = {{' + ' '.join(parts) + '};\n')
+            parts.append(f'{k} = {fmt_val(v)};')
+        return '\n' + '\t'*indent + ('\n\t'*indent).join(parts) + ';\n' + '\t'*(indent-1)
     
     xpdir = os.path.join(proj_path, f'{name}.xcodeproj')
     os.makedirs(xpdir, exist_ok=True)
@@ -117,15 +91,20 @@ def main():
         f.write('\tclasses = {\n')
         f.write('\t};\n')
         f.write('\tobjectVersion = 56;\n')
-        f.write('\tobjects = {\n')
+        f.write('\tobjects = (\n')
         
-        for oid, content in BF.items():
-            write_obj(f, oid, content)
-        for oid, content in FR.items():
-            write_obj(f, oid, content)
+        all_objs = {}
+        all_objs.update(BF)
+        all_objs.update(FR)
         
-        write_dict(f, uid('P'), {
-            'isa': 'PBXProject',
+        for oid, obj in all_objs.items():
+            s = fmt_obj(obj)
+            f.write(f'\t\t{oid} /* Object */ = {{{s}}};\n')
+        
+        all_children = list(FR.keys())
+        
+        proj = {
+            'isa':'PBXProject',
             'attributes': '{"BuildIndependentTargetsInParallel":1,"LastSwiftUpdateCheck":1500,"LastUpgradeCheck":1500,"SwiftABIVersion":7,"TARGETED_DEVICE_FAMILY":"1,2"}',
             'buildConfigurationList': P_BCL,
             'compatibilityVersion': '"Xcode 14.0"',
@@ -136,93 +115,117 @@ def main():
             'productRefGroup': PG,
             'projectDirPath': '""',
             'projectRoot': '""',
-            'targets': f'({T})',
-        })
+            'targets': f'<{T}>',
+        }
+        s = fmt_obj(proj)
+        f.write(f'\t\t{P} /* Project object */ = {{{s}}};\n')
         
-        write_dict(f, MG, {
-            'isa': 'PBXGroup',
-            'children': ' '.join(list(FR.keys())),
+        main_group = {
+            'isa':'PBXGroup',
+            'children': '(' + ' '.join(all_children) + ')',
             'sourceTree': '"<group>"',
-        })
+        }
+        s = fmt_obj(main_group)
+        f.write(f'\t\t{MG} = {{{s}}};\n')
         
-        write_dict(f, PG, {
-            'isa': 'PBXGroup',
-            'children': f'({PR})',
+        prod_group = {
+            'isa':'PBXGroup',
+            'children': f'(<{PR}>)',
             'name': '"Products"',
             'sourceTree': '"<group>"',
-        })
+        }
+        s = fmt_obj(prod_group)
+        f.write(f'\t\t{PG} = {{{s}}};\n')
         
-        write_dict(f, T, {
-            'isa': 'PBXNativeTarget',
+        native_target = {
+            'isa':'PBXNativeTarget',
             'buildConfigurationList': T_BCL,
-            'buildPhases': f'({SBP} {FBP} {RBP})',
+            'buildPhases': f'(<{SBP}> <{FBP}> <{RBP}>)',
             'buildRules': '()',
             'dependencies': '()',
             'name': f'"{name}"',
             'productName': f'"{name}"',
-            'productReference': PR,
+            'productReference': f'<{PR}>',
             'productType': '"com.apple.product-type.application"',
-        })
+        }
+        s = fmt_obj(native_target)
+        f.write(f'\t\t{T} = {{{s}}};\n')
         
-        write_dict(f, SBP, {
-            'isa': 'PBXSourcesBuildPhase',
+        sources_phase = {
+            'isa':'PBXSourcesBuildPhase',
             'buildActionMask': 2147483647,
-            'files': ' '.join(files_list),
+            'files': '(' + ' '.join([f'<{x}>' for x in files_list]) + ')',
             'runOnlyForDeploymentPostprocessing': 0,
-        })
+        }
+        s = fmt_obj(sources_phase)
+        f.write(f'\t\t{SBP} = {{{s}}};\n')
         
-        write_dict(f, FBP, {
-            'isa': 'PBXFrameworksBuildPhase',
+        frameworks_phase = {
+            'isa':'PBXFrameworksBuildPhase',
             'buildActionMask': 2147483647,
             'files': '()',
             'runOnlyForDeploymentPostprocessing': 0,
-        })
+        }
+        s = fmt_obj(frameworks_phase)
+        f.write(f'\t\t{FBP} = {{{s}}};\n')
         
-        write_dict(f, RBP, {
-            'isa': 'PBXResourcesBuildPhase',
+        resources_phase = {
+            'isa':'PBXResourcesBuildPhase',
             'buildActionMask': 2147483647,
-            'files': ' '.join([x for x in resources_list if x]) if resources_list else '()',
+            'files': '()',
             'runOnlyForDeploymentPostprocessing': 0,
-        })
+        }
+        s = fmt_obj(resources_phase)
+        f.write(f'\t\t{RBP} = {{{s}}};\n')
         
-        write_dict(f, P_BCL, {
-            'isa': 'XCConfigurationList',
-            'buildConfigurations': f'({P_DBG} {P_REL})',
+        proj_bcl = {
+            'isa':'XCConfigurationList',
+            'buildConfigurations': f'(<{P_DBG}> <{P_REL}>)',
             'defaultConfigurationIsVisible': 0,
             'defaultConfigurationName': '"Release"',
-        })
+        }
+        s = fmt_obj(proj_bcl)
+        f.write(f'\t\t{P_BCL} = {{{s}}};\n')
         
-        write_dict(f, P_DBG, {
-            'isa': 'XCBuildConfiguration',
-            'buildSettings': f'"{build_settings("Debug")}"',
+        proj_dbg = {
+            'isa':'XCBuildConfiguration',
             'name': '"Debug"',
-        })
+        }
+        s = fmt_obj(proj_dbg)
+        f.write(f'\t\t{P_DBG} = {{{s}}};\n')
         
-        write_dict(f, P_REL, {
-            'isa': 'XCBuildConfiguration',
-            'buildSettings': f'"{build_settings("Release")}"',
+        proj_rel = {
+            'isa':'XCBuildConfiguration',
             'name': '"Release"',
-        })
+        }
+        s = fmt_obj(proj_rel)
+        f.write(f'\t\t{P_REL} = {{{s}}};\n')
         
-        write_dict(f, T_BCL, {
-            'isa': 'XCConfigurationList',
-            'buildConfigurations': f'({T_DBG} {T_REL})',
+        target_bcl = {
+            'isa':'XCConfigurationList',
+            'buildConfigurations': f'(<{T_DBG}> <{T_REL}>)',
             'defaultConfigurationIsVisible': 0,
             'defaultConfigurationName': '"Release"',
-        })
+        }
+        s = fmt_obj(target_bcl)
+        f.write(f'\t\t{T_BCL} = {{{s}}};\n')
         
-        write_dict(f, T_DBG, {
-            'isa': 'XCBuildConfiguration',
+        target_dbg = {
+            'isa':'XCBuildConfiguration',
             'name': '"Debug"',
-        })
+        }
+        s = fmt_obj(target_dbg)
+        f.write(f'\t\t{T_DBG} = {{{s}}};\n')
         
-        write_dict(f, T_REL, {
-            'isa': 'XCBuildConfiguration',
+        target_rel = {
+            'isa':'XCBuildConfiguration',
             'name': '"Release"',
-        })
+        }
+        s = fmt_obj(target_rel)
+        f.write(f'\t\t{T_REL} = {{{s}}};\n')
         
-        f.write('\t};\n')
-        f.write(f'\trootObject = {uid("P")} /* Project object */;\n')
+        f.write('\t);\n')
+        f.write(f'\trootObject = {P} /* Project object */;\n')
         f.write('}\n')
     
     print(f'Generated: {xpdir}/project.pbxproj')
