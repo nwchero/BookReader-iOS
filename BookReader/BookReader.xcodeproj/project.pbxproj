@@ -5,432 +5,73 @@
 	};
 	objectVersion = 56;
 	objects = {
-		010E861E20E9479CAEA1B88Ef = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Models/Book.swift";
-			sourceTree = "<group>";
-		}};
-		118A54D2DF034C36B81565F9b = {
-			isa = PBXBuildFile;
-			fileRef = "9065DB9E56564FE9B8453465f";
-		}};
-		1B4DCEE1224D4B9CA9E89391f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Views/NavigationRouter.swift";
-			sourceTree = "<group>";
-		}};
-		214C3D5279A64BAFBECC9B71b = {
-			isa = PBXBuildFile;
-			fileRef = "1B4DCEE1224D4B9CA9E89391f";
-		}};
-		24C6FD5FFF18423AB156A5E5T = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9E43C2F2527F40F68BF31DE6C;
-			buildPhases = (
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "BookReader";
-			productName = BookReader;
-			productReference = 6DE6538E2449465899455653F;
-			productType = "com.apple.product-type.application";
-		}};
-		269F36899412438A8AF1F672b = {
-			isa = PBXBuildFile;
-			fileRef = "D6521942937149579488A625f";
-		}};
-		26F2E951E98542E5AC1CECD8b = {
-			isa = PBXBuildFile;
-			fileRef = "65514EDC48AC4092956146D4f";
-		}};
-		288480E3145F4E79920A2507b = {
-			isa = PBXBuildFile;
-			fileRef = "9C0AD327E45B48A5B8F5DD01f";
-		}};
-		2917B1F159A24EB98B6ED00Ef = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "ViewModels/SourceViewModel.swift";
-			sourceTree = "<group>";
-		}};
-		31E474B1DD9547CB915F27AFP = {
-			isa = PBXSourcesBuildPhase;
-			files = (
-			);
-		}};
-		33E67231C73642B684006900P = {
-			isa = PBXFrameworksBuildPhase;
-			files = (
-			);
-		}};
-		4BFFAD5BB29B4B3EA42C5684b = {
-			isa = PBXBuildFile;
-			fileRef = "6D8358D112244AD090A1A4D5f";
-		}};
-		4C1C19F4E6F242539F3DDDD9f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Views/Discover/DiscoverView.swift";
-			sourceTree = "<group>";
-		}};
-		4C8CF372B3E04AE7A02DC1B3f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "ViewModels/ReaderViewModel.swift";
-			sourceTree = "<group>";
-		}};
-		4FC1E32A105B4B679AEDE8ABb = {
-			isa = PBXBuildFile;
-			fileRef = "4C8CF372B3E04AE7A02DC1B3f";
-		}};
-		5255CDF0F0B34025BAD2922Af = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "ViewModels/BookshelfViewModel.swift";
-			sourceTree = "<group>";
-		}};
-		538BF809DBB44473BB08A9D2b = {
-			isa = PBXBuildFile;
-			fileRef = "DFC518EB813E4D0D8A7603A8f";
-		}};
-		547C54BC6EEB42928FA31324f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Services/TTSService.swift";
-			sourceTree = "<group>";
-		}};
-		57BFF5B99E1041BFA44058A8b = {
-			isa = PBXBuildFile;
-			fileRef = "EA1AA4DFDAA84BE9B37E1F42f";
-		}};
-		5918239265704F0EB9F29B56f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Views/Settings/SettingsView.swift";
-			sourceTree = "<group>";
-		}};
-		5EA1E6CB9F594961AC7D5749f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "ViewModels/BookDetailViewModel.swift";
-			sourceTree = "<group>";
-		}};
-		5F9A095393014B1CBC974EECb = {
-			isa = PBXBuildFile;
-			fileRef = "DC0DA258137E4CF0BEAAB4DCf";
-		}};
-		636B4F3E571B48108C215EEFf = {
-			isa = PBXFileReference;
-			lastKnownFileType = "text.json";
-			path = "default_sources.json";
-			sourceTree = "<group>";
-		}};
-		65514EDC48AC4092956146D4f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Views/Home/BookshelfView.swift";
-			sourceTree = "<group>";
-		}};
-		664403C4CB9042D9A35895A2b = {
-			isa = PBXBuildFile;
-			fileRef = "F7356325D5354968AC0D7EB3f";
-		}};
-		6D8358D112244AD090A1A4D5f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Views/Sources/SourcesView.swift";
-			sourceTree = "<group>";
-		}};
-		6DE6538E2449465899455653F = {
-			isa = PBXFileReference;
-			explicitFileType = "wrapper.application";
-			path = "BookReader.app";
-			sourceTree = "BUILT_PRODUCTS_DIR";
-		}};
-		729E798BAF5842FCAB34617Db = {
-			isa = PBXBuildFile;
-			fileRef = "73E76BADAF68455D89555849f";
-		}};
-		73E76BADAF68455D89555849f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Services/SourceImportService.swift";
-			sourceTree = "<group>";
-		}};
-		74F03789471A41F6BCF39B87f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Services/SourceParser.swift";
-			sourceTree = "<group>";
-		}};
-		7500A807D16045DDBFF4FEBCC = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-			);
-			defaultConfigurationName = Release;
-		}};
-		7630365FFB1340AFB70AF56Cb = {
-			isa = PBXBuildFile;
-			fileRef = "547C54BC6EEB42928FA31324f";
-		}};
-		76F9DCC62029407AAC287AF2f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "BookReaderApp.swift";
-			sourceTree = "<group>";
-		}};
-		7A31C5A137F146F18E398D4DC = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = -;
-				CODE_SIGNING_ALLOWED = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bookreader.app;
-				PRODUCT_NAME = $(TARGET_NAME);
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.9;
-				TARGETED_DEVICE_FAMILY = 1,2;
-				SWIFT_OPTIMIZATION_LEVEL = -Onone;
-			};
-			name = "Debug";
-		}};
-		7B63DDB4B432429FA126AEBFb = {
-			isa = PBXBuildFile;
-			fileRef = "5918239265704F0EB9F29B56f";
-		}};
-		7D10BAE840CF48FFBA5CB07Bb = {
-			isa = PBXBuildFile;
-			fileRef = "ABF4848709A24ADF807CE01Df";
-		}};
-		8C431BEA409640A9B22133FAC = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = -;
-				CODE_SIGNING_ALLOWED = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bookreader.app;
-				PRODUCT_NAME = $(TARGET_NAME);
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.9;
-				TARGETED_DEVICE_FAMILY = 1,2;
-			};
-			name = "Release";
-		}};
-		9065DB9E56564FE9B8453465f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "ViewModels/DiscoverViewModel.swift";
-			sourceTree = "<group>";
-		}};
-		9680FC9B7D544402A6170C32b = {
-			isa = PBXBuildFile;
-			fileRef = "010E861E20E9479CAEA1B88Ef";
-		}};
-		9C0AD327E45B48A5B8F5DD01f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Models/Chapter.swift";
-			sourceTree = "<group>";
-		}};
-		9E43C2F2527F40F68BF31DE6C = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-			);
-			defaultConfigurationName = Release;
-		}};
-		A4644E9007674944885DD000C = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = -;
-				CODE_SIGNING_ALLOWED = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bookreader.app;
-				PRODUCT_NAME = $(TARGET_NAME);
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.9;
-				TARGETED_DEVICE_FAMILY = 1,2;
-			};
-			name = "Debug";
-		}};
-		ABC3174E011A44E588E0896Eb = {
-			isa = PBXBuildFile;
-			fileRef = "5EA1E6CB9F594961AC7D5749f";
-		}};
-		ABF4848709A24ADF807CE01Df = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Services/DataManager.swift";
-			sourceTree = "<group>";
-		}};
-		B3FEA5DC5FDC4E4CB8D20E50G = {
-			isa = PBXGroup;
-			children = (
-			);
-			sourceTree = "<group>";
-		}};
-		B82470FCBE7C448BABF646FDf = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Models/ReadingProgress.swift";
-			sourceTree = "<group>";
-		}};
-		C15FDC40C8BC497C9C415C90b = {
-			isa = PBXBuildFile;
-			fileRef = "E4FD87AA9FFC4AECBFDC4757f";
-		}};
-		C20A3C98DB9949A7B7027050b = {
-			isa = PBXBuildFile;
-			fileRef = "E600B4BBF8B444BD926C3A36f";
-		}};
-		C9BCEFE1DAC34D2D9192E944b = {
-			isa = PBXBuildFile;
-			fileRef = "4C1C19F4E6F242539F3DDDD9f";
-		}};
-		D355F04B304E47B4BE3B8697b = {
-			isa = PBXBuildFile;
-			fileRef = "76F9DCC62029407AAC287AF2f";
-		}};
-		D6521942937149579488A625f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Models/BookSource.swift";
-			sourceTree = "<group>";
-		}};
-		D8982A3A055E4AC2A93A23F7b = {
-			isa = PBXBuildFile;
-			fileRef = "5255CDF0F0B34025BAD2922Af";
-		}};
-		DBC4D4FA55DD44F09A0FADF4P = {
-			isa = PBXResourcesBuildPhase;
-			files = (
-			);
-		}};
-		DC0DA258137E4CF0BEAAB4DCf = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Services/LegadoSourceParser.swift";
-			sourceTree = "<group>";
-		}};
-		DFC518EB813E4D0D8A7603A8f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Services/NetworkService.swift";
-			sourceTree = "<group>";
-		}};
-		E02C447ADF974F6A935A9C69f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Theme/AppTheme.swift";
-			sourceTree = "<group>";
-		}};
-		E4FD87AA9FFC4AECBFDC4757f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Models/LegadoSource.swift";
-			sourceTree = "<group>";
-		}};
-		E600B4BBF8B444BD926C3A36f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Views/Detail/BookDetailView.swift";
-			sourceTree = "<group>";
-		}};
-		E853D4D4E42F4849A32DAEA4b = {
-			isa = PBXBuildFile;
-			fileRef = "E02C447ADF974F6A935A9C69f";
-		}};
-		E8E40501D1E64E738038F371b = {
-			isa = PBXBuildFile;
-			fileRef = "74F03789471A41F6BCF39B87f";
-		}};
-		EA1AA4DFDAA84BE9B37E1F42f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Views/Reader/ReaderView.swift";
-			sourceTree = "<group>";
-		}};
-		F0054887F29D434BBA1D9900G = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Products";
-			sourceTree = "<group>";
-		}};
-		F1177BC9EC3A4BC9A8325A91b = {
-			isa = PBXBuildFile;
-			fileRef = "B82470FCBE7C448BABF646FDf";
-		}};
-		F36BA362DEA04369A2D444D2P = {
-			isa = PBXProject;
-			buildConfigurationList = 7500A807D16045DDBFF4FEBCC;
-			compatibilityVersion = Xcode 14.0;
-			developmentRegion = en;
-			knownRegions = (
-			);
-			mainGroup = B3FEA5DC5FDC4E4CB8D20E50G;
-			productRefGroup = F0054887F29D434BBA1D9900G;
-			projectDirPath = ;
-			projectRoot = ;
-			targets = (
-			);
-		}};
-		F4AF2C86C37A49F189BAD39Fb = {
-			isa = PBXBuildFile;
-			fileRef = "2917B1F159A24EB98B6ED00Ef";
-		}};
-		F7356325D5354968AC0D7EB3f = {
-			isa = PBXFileReference;
-			lastKnownFileType = "sourcecode.swift";
-			path = "Views/TabBarView.swift";
-			sourceTree = "<group>";
-		}};
-		FCC76601222B4290B303A102C = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = -;
-				CODE_SIGNING_ALLOWED = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bookreader.app;
-				PRODUCT_NAME = $(TARGET_NAME);
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.9;
-				TARGETED_DEVICE_FAMILY = 1,2;
-				SWIFT_OPTIMIZATION_LEVEL = -O;
-			};
-			name = "Release";
-		}};
+		8CCA4B5FD70645F8BBA3FE65b = { isa = PBXBuildFile; fileRef = 87CE376E7555435DA4BC257Ef; };
+		22E45C66E0D0458BA8D27EFCb = { isa = PBXBuildFile; fileRef = 188C883288E7415392D01BAAf; };
+		3713898325414001BBD867EBb = { isa = PBXBuildFile; fileRef = EDA042AE2703451AA87F73CAf; };
+		0221DA9AFAEF4CE4B11B1135b = { isa = PBXBuildFile; fileRef = 8F4974893CE34DBF98A4D0B8f; };
+		B444985F6170440EB4119514b = { isa = PBXBuildFile; fileRef = 1923244622B44486BF645BE7f; };
+		45A2890E7F894968B4FD8CECb = { isa = PBXBuildFile; fileRef = 26D1D8BEE5DD4131A611E230f; };
+		B4BF524D7DE5493EA8815C05b = { isa = PBXBuildFile; fileRef = 138CA22AE8BE45A880132CADf; };
+		29018C907B354976B9A70830b = { isa = PBXBuildFile; fileRef = 82B706E28BC24C47B685904Cf; };
+		025060D1368F4122A38495AAb = { isa = PBXBuildFile; fileRef = B2433ABA0AEF49579443CD08f; };
+		C794C876F4AE44D69D75B0FCb = { isa = PBXBuildFile; fileRef = 23DC5E4A57384935967B1B79f; };
+		D71B04DA015748DA9A3978BAb = { isa = PBXBuildFile; fileRef = D2531FE3771F45428436CBFDf; };
+		F2344DE25F7A45E4B0DA6F4Cb = { isa = PBXBuildFile; fileRef = 81933F74EA19490DBA12BE4Df; };
+		6A3C326F28994D15834F0B96b = { isa = PBXBuildFile; fileRef = 82EE9DD0786F4607AD474FAEf; };
+		D5D041834B614087B1DDD3CFb = { isa = PBXBuildFile; fileRef = CE0FA9E87F744B7990C7828Df; };
+		F511FBBA4908423798666475b = { isa = PBXBuildFile; fileRef = D7D08BBA3F5B40F19B68B7EDf; };
+		0F74019DB5AA4855938EBDDCb = { isa = PBXBuildFile; fileRef = 1105640BCFA745358C12965Af; };
+		436F0B19AC924E3F8C9DF3B6b = { isa = PBXBuildFile; fileRef = 38F87512B7174FE6A148949Bf; };
+		B188E4F4AACC4440B3A6A477b = { isa = PBXBuildFile; fileRef = 4F6F6AA554524A86B0720C58f; };
+		D9576F223E0F4D56AE4335DAb = { isa = PBXBuildFile; fileRef = 3F9CFAAFD33C4AB29424CD80f; };
+		49D1C0372AB54A6A9C5290E2b = { isa = PBXBuildFile; fileRef = 5CF1AACC08F84DC3A95179BAf; };
+		0104BFD1998B450D81F3754Bb = { isa = PBXBuildFile; fileRef = FA896048C27148CF9A018440f; };
+		98BCEC89DD554C72BCE2BE88b = { isa = PBXBuildFile; fileRef = 3267885CB37C4D1FAB444EE0f; };
+		281365E39D4C4B0B8FD890F3b = { isa = PBXBuildFile; fileRef = 64213BEB9AF447968285B5EFf; };
+		25FC9553251A48D18EA8B19Ab = { isa = PBXBuildFile; fileRef = 1C550F5000964066A91C3267f; };
+		78AE4D809EE14F638D50A2DFb = { isa = PBXBuildFile; fileRef = E7173D74315B462F99350DE6f; };
+		C1FAB34AC7D64A5587B0A7B7b = { isa = PBXBuildFile; fileRef = 657E95D8F1DA48F9BD980F1Bf; };
+		87CE376E7555435DA4BC257Ef = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookReaderApp.swift; sourceTree = "<group>"; };
+		188C883288E7415392D01BAAf = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme/AppTheme.swift; sourceTree = "<group>"; };
+		EDA042AE2703451AA87F73CAf = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/DataManager.swift; sourceTree = "<group>"; };
+		8F4974893CE34DBF98A4D0B8f = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/LegadoSourceParser.swift; sourceTree = "<group>"; };
+		1923244622B44486BF645BE7f = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/NetworkService.swift; sourceTree = "<group>"; };
+		26D1D8BEE5DD4131A611E230f = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/SourceImportService.swift; sourceTree = "<group>"; };
+		138CA22AE8BE45A880132CADf = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/SourceParser.swift; sourceTree = "<group>"; };
+		82B706E28BC24C47B685904Cf = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/TTSService.swift; sourceTree = "<group>"; };
+		B2433ABA0AEF49579443CD08f = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels/BookDetailViewModel.swift; sourceTree = "<group>"; };
+		23DC5E4A57384935967B1B79f = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels/BookshelfViewModel.swift; sourceTree = "<group>"; };
+		D2531FE3771F45428436CBFDf = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels/DiscoverViewModel.swift; sourceTree = "<group>"; };
+		81933F74EA19490DBA12BE4Df = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels/ReaderViewModel.swift; sourceTree = "<group>"; };
+		82EE9DD0786F4607AD474FAEf = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels/SourceViewModel.swift; sourceTree = "<group>"; };
+		CE0FA9E87F744B7990C7828Df = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/NavigationRouter.swift; sourceTree = "<group>"; };
+		D7D08BBA3F5B40F19B68B7EDf = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/TabBarView.swift; sourceTree = "<group>"; };
+		1105640BCFA745358C12965Af = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Home/BookshelfView.swift; sourceTree = "<group>"; };
+		38F87512B7174FE6A148949Bf = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Sources/SourcesView.swift; sourceTree = "<group>"; };
+		4F6F6AA554524A86B0720C58f = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Detail/BookDetailView.swift; sourceTree = "<group>"; };
+		3F9CFAAFD33C4AB29424CD80f = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Reader/ReaderView.swift; sourceTree = "<group>"; };
+		5CF1AACC08F84DC3A95179BAf = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Settings/SettingsView.swift; sourceTree = "<group>"; };
+		FA896048C27148CF9A018440f = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Discover/DiscoverView.swift; sourceTree = "<group>"; };
+		3267885CB37C4D1FAB444EE0f = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/Book.swift; sourceTree = "<group>"; };
+		64213BEB9AF447968285B5EFf = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/BookSource.swift; sourceTree = "<group>"; };
+		1C550F5000964066A91C3267f = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/Chapter.swift; sourceTree = "<group>"; };
+		E7173D74315B462F99350DE6f = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/LegadoSource.swift; sourceTree = "<group>"; };
+		657E95D8F1DA48F9BD980F1Bf = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/ReadingProgress.swift; sourceTree = "<group>"; };
+		15BB38D9B47042D799F92844f = { isa = PBXFileReference; lastKnownFileType = text.json; path = default_sources.json; sourceTree = "<group>"; };
+		ED535E11C8794A7E9DCAEA39F = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0037F6BF81E94890A3583DA7P = {isa = PBXProject attributes = {"BuildIndependentTargetsInParallel":1,"LastSwiftUpdateCheck":1500,"LastUpgradeCheck":1500,"SwiftABIVersion":7,"TARGETED_DEVICE_FAMILY":"1,2"}; buildConfigurationList = BDE555821308401489A55AADC; compatibilityVersion = "Xcode 14.0"; developmentRegion = "en"; knownRegions = ["en","Base"]; mainGroup = BEE6AA4C4FE54736B77E3733G; productRefGroup = 7D2EFB171C724E588D111C0AG; projectDirPath = ""; projectRoot = ""; targets = (4790E26A70E04C94883C17C2T);};
+		BEE6AA4C4FE54736B77E3733G = {isa = PBXGroup children = 87CE376E7555435DA4BC257Ef 188C883288E7415392D01BAAf EDA042AE2703451AA87F73CAf 8F4974893CE34DBF98A4D0B8f 1923244622B44486BF645BE7f 26D1D8BEE5DD4131A611E230f 138CA22AE8BE45A880132CADf 82B706E28BC24C47B685904Cf B2433ABA0AEF49579443CD08f 23DC5E4A57384935967B1B79f D2531FE3771F45428436CBFDf 81933F74EA19490DBA12BE4Df 82EE9DD0786F4607AD474FAEf CE0FA9E87F744B7990C7828Df D7D08BBA3F5B40F19B68B7EDf 1105640BCFA745358C12965Af 38F87512B7174FE6A148949Bf 4F6F6AA554524A86B0720C58f 3F9CFAAFD33C4AB29424CD80f 5CF1AACC08F84DC3A95179BAf FA896048C27148CF9A018440f 3267885CB37C4D1FAB444EE0f 64213BEB9AF447968285B5EFf 1C550F5000964066A91C3267f E7173D74315B462F99350DE6f 657E95D8F1DA48F9BD980F1Bf 15BB38D9B47042D799F92844f ED535E11C8794A7E9DCAEA39F; sourceTree = "<group>";};
+		7D2EFB171C724E588D111C0AG = {isa = PBXGroup children = (ED535E11C8794A7E9DCAEA39F); name = "Products"; sourceTree = "<group>";};
+		4790E26A70E04C94883C17C2T = {isa = PBXNativeTarget buildConfigurationList = 0FD010F13A0048F0A1E8975CC; buildPhases = (8EB5A933277043B9850F41F8P 831F425976C0483191FF4BB5P 24137B9A448945B8B33FC342P); buildRules = (); dependencies = (); name = "BookReader"; productName = "BookReader"; productReference = ED535E11C8794A7E9DCAEA39F; productType = "com.apple.product-type.application";};
+		8EB5A933277043B9850F41F8P = {isa = PBXSourcesBuildPhase files = 8CCA4B5FD70645F8BBA3FE65b 22E45C66E0D0458BA8D27EFCb 3713898325414001BBD867EBb 0221DA9AFAEF4CE4B11B1135b B444985F6170440EB4119514b 45A2890E7F894968B4FD8CECb B4BF524D7DE5493EA8815C05b 29018C907B354976B9A70830b 025060D1368F4122A38495AAb C794C876F4AE44D69D75B0FCb D71B04DA015748DA9A3978BAb F2344DE25F7A45E4B0DA6F4Cb 6A3C326F28994D15834F0B96b D5D041834B614087B1DDD3CFb F511FBBA4908423798666475b 0F74019DB5AA4855938EBDDCb 436F0B19AC924E3F8C9DF3B6b B188E4F4AACC4440B3A6A477b D9576F223E0F4D56AE4335DAb 49D1C0372AB54A6A9C5290E2b 0104BFD1998B450D81F3754Bb 98BCEC89DD554C72BCE2BE88b 281365E39D4C4B0B8FD890F3b 25FC9553251A48D18EA8B19Ab 78AE4D809EE14F638D50A2DFb C1FAB34AC7D64A5587B0A7B7b;};
+		831F425976C0483191FF4BB5P = {isa = PBXFrameworksBuildPhase files = ();};
+		24137B9A448945B8B33FC342P = {isa = PBXResourcesBuildPhase files = ();};
+		BDE555821308401489A55AADC = {isa = XCConfigurationList buildConfigurations = (47F81748656A4E02A0777312C BE17554475794873A7F4872BC); defaultConfigurationName = "Release";};
+		47F81748656A4E02A0777312C = {isa = XCBuildConfiguration buildSettings = "CODE_SIGN_IDENTITY = -; CODE_SIGNING_ALLOWED = NO; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait"; IPHONEOS_DEPLOYMENT_TARGET = 16.0; MARKETING_VERSION = 1.0.0; PRODUCT_BUNDLE_IDENTIFIER = com.bookreader.app; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_OPTIMIZATION_LEVEL = -Onone; SWIFT_VERSION = 5.9; TARGETED_DEVICE_FAMILY = "1,2";"; name = "Debug";};
+		BE17554475794873A7F4872BC = {isa = XCBuildConfiguration buildSettings = "CODE_SIGN_IDENTITY = -; CODE_SIGNING_ALLOWED = NO; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait"; IPHONEOS_DEPLOYMENT_TARGET = 16.0; MARKETING_VERSION = 1.0.0; PRODUCT_BUNDLE_IDENTIFIER = com.bookreader.app; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_OPTIMIZATION_LEVEL = -O; SWIFT_VERSION = 5.9; TARGETED_DEVICE_FAMILY = "1,2";"; name = "Release";};
+		0FD010F13A0048F0A1E8975CC = {isa = XCConfigurationList buildConfigurations = (DE27C8F0BA0741969AD21A87C 1135185D14CD4309A0933E06C); defaultConfigurationName = "Release";};
+		DE27C8F0BA0741969AD21A87C = {isa = XCBuildConfiguration name = "Debug";};
+		1135185D14CD4309A0933E06C = {isa = XCBuildConfiguration name = "Release";};
 	};
-	rootObject = F36BA362DEA04369A2D444D2P;
+	rootObject = 330EFCEEAFC941849DC8FE8BP /* Project object */;
 }
