@@ -193,7 +193,10 @@ def w(f, d, indent):
             for i in v:
                 if isinstance(i, str):
                     sq=k in ('name','children','files') or '$' in i or '/' in i or ' ' in i or '.' in i
-                    f'{p}\t"{i}",\n' if sq else f'{p}\t{i},\n'
+                    if sq:
+                        f.write(f'{p}\t"{i}",\n')
+                    else:
+                        f.write(f'{p}\t{i},\n')
             f.write(f'{p});\n')
         elif isinstance(v, dict):
             f.write(f'{p}{k} = {{\n'); w(f,v,indent+1); f.write(f'{p}}};\n')
