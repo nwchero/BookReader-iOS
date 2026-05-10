@@ -8,16 +8,64 @@
 
 /* Begin PBXBuildFile section */
 		A100000100000001 /* BookReaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000200000002 /* BookReaderApp.swift */; };
-		A100000300000003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000400000004 /* ContentView.swift */; };
 		A100000500000005 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A100000600000006 /* Assets.xcassets */; };
+		A100001001000010 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100001101000011 /* Book.swift */; };
+		A100001201000012 /* BookSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100001301000013 /* BookSource.swift */; };
+		A100001401000014 /* Chapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100001501000015 /* Chapter.swift */; };
+		A100001601000016 /* LegadoSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100001701000017 /* LegadoSource.swift */; };
+		A100001801000018 /* ReadingProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100001901000019 /* ReadingProgress.swift */; };
+		A100002001000020 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100002101000021 /* DataManager.swift */; };
+		A100002201000022 /* LegadoSourceParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100002301000023 /* LegadoSourceParser.swift */; };
+		A100002401000024 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100002501000025 /* NetworkService.swift */; };
+		A100002601000026 /* SourceImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100002701000027 /* SourceImportService.swift */; };
+		A100002801000028 /* SourceParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100002901000029 /* SourceParser.swift */; };
+		A100003001000030 /* TTSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100003101000031 /* TTSService.swift */; };
+		A100003201000032 /* BookshelfViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100003301000033 /* BookshelfViewModel.swift */; };
+		A100003401000034 /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100003501000035 /* DiscoverViewModel.swift */; };
+		A100003601000036 /* ReaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100003701000037 /* ReaderViewModel.swift */; };
+		A100003801000038 /* SourceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100003901000039 /* SourceViewModel.swift */; };
+		A100004001000040 /* BookDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100004101000041 /* BookDetailViewModel.swift */; };
+		A100004201000042 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100004301000043 /* AppTheme.swift */; };
+		A100004401000044 /* BookshelfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100004501000045 /* BookshelfView.swift */; };
+		A100004601000046 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100004701000047 /* DiscoverView.swift */; };
+		A100004801000048 /* SourcesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100004901000049 /* SourcesView.swift */; };
+		A100005001000050 /* BookDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100005101000051 /* BookDetailView.swift */; };
+		A100005201000052 /* ReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100005301000053 /* ReaderView.swift */; };
+		A100005401000054 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100005501000055 /* SettingsView.swift */; };
+		A100005601000056 /* NavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100005701000057 /* NavigationRouter.swift */; };
+		A100005801000058 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100005901000059 /* TabBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A100000200000002 /* BookReaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookReaderApp.swift; sourceTree = "<group>"; };
-		A100000400000004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A100000600000006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A100000700000007 /* BookReader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BookReader.entitlements; sourceTree = "<group>"; };
 		A100000800000008 /* BookReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A100001101000011 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		A100001301000013 /* BookSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSource.swift; sourceTree = "<group>"; };
+		A100001501000015 /* Chapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter.swift; sourceTree = "<group>"; };
+		A100001701000017 /* LegadoSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegadoSource.swift; sourceTree = "<group>"; };
+		A100001901000019 /* ReadingProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingProgress.swift; sourceTree = "<group>"; };
+		A100002101000021 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		A100002301000023 /* LegadoSourceParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegadoSourceParser.swift; sourceTree = "<group>"; };
+		A100002501000025 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		A100002701000027 /* SourceImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceImportService.swift; sourceTree = "<group>"; };
+		A100002901000029 /* SourceParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceParser.swift; sourceTree = "<group>"; };
+		A100003101000031 /* TTSService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTSService.swift; sourceTree = "<group>"; };
+		A100003301000033 /* BookshelfViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookshelfViewModel.swift; sourceTree = "<group>"; };
+		A100003501000035 /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
+		A100003701000037 /* ReaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderViewModel.swift; sourceTree = "<group>"; };
+		A100003901000039 /* SourceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceViewModel.swift; sourceTree = "<group>"; };
+		A100004101000041 /* BookDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewModel.swift; sourceTree = "<group>"; };
+		A100004301000043 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		A100004501000045 /* BookshelfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookshelfView.swift; sourceTree = "<group>"; };
+		A100004701000047 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
+		A100004901000049 /* SourcesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcesView.swift; sourceTree = "<group>"; };
+		A100005101000051 /* BookDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailView.swift; sourceTree = "<group>"; };
+		A100005301000053 /* ReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderView.swift; sourceTree = "<group>"; };
+		A100005501000055 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A100005701000057 /* NavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRouter.swift; sourceTree = "<group>"; };
+		A100005901000059 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,10 +113,11 @@
 		A100000D0000000D /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A100001200000012 /* BookSource.swift */,
-				A100001300000013 /* Book.swift */,
-				A100001400000014 /* Chapter.swift */,
-				A100001500000015 /* ReadingProgress.swift */,
+				A100001101000011 /* Book.swift */,
+				A100001301000013 /* BookSource.swift */,
+				A100001501000015 /* Chapter.swift */,
+				A100001701000017 /* LegadoSource.swift */,
+				A100001901000019 /* ReadingProgress.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -76,9 +125,12 @@
 		A100000E0000000E /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				A100001600000016 /* NetworkService.swift */,
-				A100001700000017 /* SourceParser.swift */,
-				A100001800000018 /* DataManager.swift */,
+				A100002101000021 /* DataManager.swift */,
+				A100002301000023 /* LegadoSourceParser.swift */,
+				A100002501000025 /* NetworkService.swift */,
+				A100002701000027 /* SourceImportService.swift */,
+				A100002901000029 /* SourceParser.swift */,
+				A100003101000031 /* TTSService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -86,69 +138,69 @@
 		A100000F0000000F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A100001900000019 /* Home */,
-				A100001A0000001A /* Discover */,
-				A100001B0000001B /* Sources */,
-				A100001C0000001C /* Detail */,
-				A100001D0000001D /* Reader */,
-				A100001E0000001E /* Settings */,
-				A100001F0000001F /* TabBarView.swift */,
-				A100002000000020 /* NavigationRouter.swift */,
+				A100001F0000001F /* Home */,
+				A100002000000020 /* Discover */,
+				A100002100000021 /* Sources */,
+				A100002200000022 /* Detail */,
+				A100002300000023 /* Reader */,
+				A100002400000024 /* Settings */,
+				A100005901000059 /* TabBarView.swift */,
+				A100005701000057 /* NavigationRouter.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		A100001900000019 /* Home */ = {
+		A100001F0000001F /* Home */ = {
 			isa = PBXGroup;
-			children = (A100002100000021 /* BookshelfView.swift */);
+			children = (A100004501000045 /* BookshelfView.swift */);
 			path = Home;
 			sourceTree = "<group>";
 		};
-		A100001A0000001A /* Discover */ = {
+		A100002000000020 /* Discover */ = {
 			isa = PBXGroup;
-			children = (A100002200000022 /* DiscoverView.swift */);
+			children = (A100004701000047 /* DiscoverView.swift */);
 			path = Discover;
 			sourceTree = "<group>";
 		};
-		A100001B0000001B /* Sources */ = {
+		A100002100000021 /* Sources */ = {
 			isa = PBXGroup;
-			children = (A100002300000023 /* SourcesView.swift */);
+			children = (A100004901000049 /* SourcesView.swift */);
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		A100001C0000001C /* Detail */ = {
+		A100002200000022 /* Detail */ = {
 			isa = PBXGroup;
-			children = (A100002400000024 /* BookDetailView.swift */);
+			children = (A100005101000051 /* BookDetailView.swift */);
 			path = Detail;
 			sourceTree = "<group>";
 		};
-		A100001D0000001D /* Reader */ = {
+		A100002300000023 /* Reader */ = {
 			isa = PBXGroup;
-			children = (A100002500000025 /* ReaderView.swift */);
+			children = (A100005301000053 /* ReaderView.swift */);
 			path = Reader;
 			sourceTree = "<group>";
 		};
-		A100001E0000001E /* Settings */ = {
+		A100002400000024 /* Settings */ = {
 			isa = PBXGroup;
-			children = (A100002600000026 /* SettingsView.swift */);
+			children = (A100005501000055 /* SettingsView.swift */);
 			path = Settings;
 			sourceTree = "<group>";
 		};
 		A100001000000010 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				A100002700000027 /* BookshelfViewModel.swift */,
-				A100002800000028 /* DiscoverViewModel.swift */,
-				A100002900000029 /* SourceViewModel.swift */,
-				A100002A0000002A /* BookDetailViewModel.swift */,
-				A100002B0000002B /* ReaderViewModel.swift */,
+				A100003301000033 /* BookshelfViewModel.swift */,
+				A100003501000035 /* DiscoverViewModel.swift */,
+				A100003901000039 /* SourceViewModel.swift */,
+				A100004101000041 /* BookDetailViewModel.swift */,
+				A100003701000037 /* ReaderViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		A100001100000011 /* Theme */ = {
 			isa = PBXGroup;
-			children = (A100002C0000002C /* AppTheme.swift */);
+			children = (A100004301000043 /* AppTheme.swift */);
 			path = Theme;
 			sourceTree = "<group>";
 		};
@@ -214,7 +266,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				A100000100000001 /* BookReaderApp.swift in Sources */,
-				A100000300000003 /* ContentView.swift in Sources */,
+				A100001001000010 /* Book.swift in Sources */,
+				A100001201000012 /* BookSource.swift in Sources */,
+				A100001401000014 /* Chapter.swift in Sources */,
+				A100001601000016 /* LegadoSource.swift in Sources */,
+				A100001801000018 /* ReadingProgress.swift in Sources */,
+				A100002001000020 /* DataManager.swift in Sources */,
+				A100002201000022 /* LegadoSourceParser.swift in Sources */,
+				A100002401000024 /* NetworkService.swift in Sources */,
+				A100002601000026 /* SourceImportService.swift in Sources */,
+				A100002801000028 /* SourceParser.swift in Sources */,
+				A100003001000030 /* TTSService.swift in Sources */,
+				A100003201000032 /* BookshelfViewModel.swift in Sources */,
+				A100003401000034 /* DiscoverViewModel.swift in Sources */,
+				A100003601000036 /* ReaderViewModel.swift in Sources */,
+				A100003801000038 /* SourceViewModel.swift in Sources */,
+				A100004001000040 /* BookDetailViewModel.swift in Sources */,
+				A100004201000042 /* AppTheme.swift in Sources */,
+				A100004401000044 /* BookshelfView.swift in Sources */,
+				A100004601000046 /* DiscoverView.swift in Sources */,
+				A100004801000048 /* SourcesView.swift in Sources */,
+				A100005001000050 /* BookDetailView.swift in Sources */,
+				A100005201000052 /* ReaderView.swift in Sources */,
+				A100005401000054 /* SettingsView.swift in Sources */,
+				A100005601000056 /* NavigationRouter.swift in Sources */,
+				A100005801000058 /* TabBarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,5 +498,5 @@
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = A10000310000031 /* Project object */;
+	rootObject = A100003100000031 /* Project object */;
 }
