@@ -13,6 +13,65 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install xcodegen
+        run: brew install xcodegen || true
+
+      - name: Generate Xcode Project
+        run: |
+          cat > BookReader/project.yml << 'EOF'
+          name: BookReader
+          options:
+            bundleIdPrefix: com.bookreader
+            deploymentTarget:
+              iOS: "16.0"
+            xcodeVersion: "15.0"
+            generateEmptyDirectories: true
+            groupSortPosition: top
+          settings:
+            base:
+              SWIFT_VERSION: "5.9"
+              MARKETING_VERSION: "1.0.0"
+              CURRENT_PROJECT_VERSION: "1"
+              PRODUCT_BUNDLE_IDENTIFIER: "com.bookreader.app"
+              INFOPLIST_KEY_UIApplicationSceneManifest_Generation: "YES"
+              INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: "YES"
+              INFOPLIST_KEY_UILaunchScreen_Generation: "YES"
+              INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+              INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+              CODE_SIGN_IDENTITY: "-"
+              CODE_SIGNING_REQUIRED: "NO"
+              CODE_SIGNING_ALLOWED: "NO"
+              DEVELOPMENT_TEAM: ""
+              ENABLE_USER_SCRIPT_SANDBOXING: "NO"
+          targets:
+            BookReader:
+              type: application
+              platform: iOS
+              sources:
+                - path: .
+                  excludes:
+                    - "**/*.xcassets"
+              resources:
+                - path: Assets.xcassets
+              dependencies:
+                - package: https://github.com/scinfu/SwiftSoup.git
+                  from: "2.6.1"
+          EOF
+
+          cd BookReader && xcodegen generate
+
+      - name: Show Project Structure
+        run: find BookReader -name "*.xcodeproj" -o -name "*.pbxproj" | head -5
+
+      - name: Resolve Dependencies
+        run: |
+          cd BookReader
+          xcodebuild -resolvePackageDependencies \
+            -project BookReader.xcodeproj \
+            -scheme BookReader \
+            -platform iOS \
+            -list || true
+
       - name: Build
         run: |
           cd BookReader
