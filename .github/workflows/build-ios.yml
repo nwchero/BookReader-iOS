@@ -14,17 +14,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Resolve Package Dependencies
+      - name: Get SwiftSoup
         run: |
-          xcodebuild -resolvePackageDependencies \
-            -project BookReader.xcodeproj \
-            -scheme BookReader \
-            -sdk iphoneos
+          git clone https://github.com/scinfu/SwiftSoup.git BookReader/SwiftSoup
+          cd BookReader/SwiftSoup && git checkout tags/2.7.4  # Use a stable release
+
+      - name: Generate Xcode Project
+        run: |
+          python3 generate_project.py
 
       - name: Build App
         run: |
           xcodebuild \
-            -project BookReader.xcodeproj \
+            -project BookReader/BookReader.xcodeproj \
             -scheme BookReader \
             -configuration Release \
             -sdk iphoneos \
