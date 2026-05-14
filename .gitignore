@@ -47,3 +47,5 @@ iOSInjectionProject/
 *.swp
 *~
 Thumbs.db
+artifact.zip
+build_monitor.log

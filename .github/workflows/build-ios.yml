@@ -7,50 +7,37 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
-    timeout-minutes: 45
+    runs-on: macos-13
+    timeout-minutes: 30
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Get SwiftSoup
-        run: |
-          git clone https://github.com/scinfu/SwiftSoup.git BookReader/SwiftSoup
-          cd BookReader/SwiftSoup && git checkout tags/2.7.4  # Use a stable release
-
-      - name: Generate Xcode Project
-        run: |
-          python3 generate_project.py
-
       - name: Build App
         run: |
           xcodebuild \
-            -project BookReader/BookReader.xcodeproj \
+            -project BookReader.xcodeproj \
             -scheme BookReader \
             -configuration Release \
             -sdk iphoneos \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGN_IDENTITY="-" \
-            PROVISIONING_PROFILE_SPECIFIER="" \
-            ENABLE_USER_SCRIPT_SANDBOXING=NO \
-            clean build 2>&1 | tee build.log
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            clean build
 
-      - name: Find Build Output
+      - name: Check Build Output
         run: |
           echo "=== 检查构建产物 ==="
-          find . -name "*.app" -type d 2>/dev/null
-          echo "---"
-          ls -la build/ 2>/dev/null || echo "No build directory"
-          ls -la build/Build/ 2>/dev/null || echo "No Build directory"
-          ls -la build/Build/Products/ 2>/dev/null || echo "No Products directory"
+          ls -la build/Build/Products/Release-iphoneos/
+          find build -name "*.app" -type d
 
       - name: Create Unsigned IPA
         if: always()
         run: |
           mkdir -p output
-          APP_PATH=$(find . -name "BookReader.app" -type d 2>/dev/null | head -1)
+          APP_PATH=$(find build -name "BookReader.app" -type d | head -1)
           
           if [ -n "$APP_PATH" ] && [ -d "$APP_PATH" ]; then
             echo "找到 App: $APP_PATH"
@@ -58,14 +45,13 @@ jobs:
             cp -R "$APP_PATH" /tmp/ipa-build/Payload/
             cd /tmp/ipa-build && zip -r $GITHUB_WORKSPACE/output/BookReader-unsigned.ipa Payload/
             echo "IPA 创建成功!"
-            ls -lh $GITHUB_WORKSPACE/output/BookReader-unsigned.ipa
+            ls -lh $GITHUB_WORKSPACE/output/
           else
             echo "未找到 .app 文件"
             echo "尝试查找所有产物..."
-            find . -type f -name "*.app" 2>/dev/null
-            find . -type d -name "*.app" 2>/dev/null
-            # Create a log file
-            cp build.log output/build.log || true
+            find build -type d -name "*.app" 2>/dev/null || true
+            ls -la build/ 2>/dev/null || true
+            echo "构建可能失败，请检查上面的日志" > output/BUILD_LOG.txt
           fi
 
       - name: Upload Artifact
@@ -85,4 +71,4 @@ jobs:
           echo "|------|------|" >> $GITHUB_STEP_SUMMARY
           echo "| **Run ID** | \`${{ github.run_id }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| **状态** | ${{ job.status }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| **下载** | 查看 Artifacts → \`BookReader-iOS-${{ github.run_id }}\` |"
+          echo "| **下载** | 查看 Artifacts → \`BookReader-iOS-${{ github.run_id }}\` |" >> $GITHUB_STEP_SUMMARY
