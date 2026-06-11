@@ -72,8 +72,7 @@ jobs:
           cd BookReader
           xcodebuild -resolvePackageDependencies \
             -project BookReader.xcodeproj \
-            -scheme BookReader \
-            -platform iOS
+            -scheme BookReader
 
       - name: Build App
         run: |
