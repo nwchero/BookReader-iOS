@@ -61,7 +61,7 @@ jobs:
               dependencies:
                 - package: SwiftSoup
           EOF
-          
+
           cd BookReader && xcodegen generate
 
       - name: Show Project Structure
@@ -103,7 +103,7 @@ jobs:
         run: |
           mkdir -p output
           APP_PATH=$(find BookReader/build -name "BookReader.app" -type d 2>/dev/null | head -1)
-          
+
           if [ -n "$APP_PATH" ] && [ -d "$APP_PATH" ]; then
             echo "找到 App: $APP_PATH"
             mkdir -p /tmp/ipa-build/Payload
