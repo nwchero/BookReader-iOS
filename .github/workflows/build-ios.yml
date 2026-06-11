@@ -53,11 +53,11 @@ jobs:
               type: application
               platform: iOS
               sources:
-                - path: BookReader
+                - path: .
                   excludes:
                     - "**/*.xcassets"
               resources:
-                - path: BookReader/Assets.xcassets
+                - path: Assets.xcassets
               dependencies:
                 - package: SwiftSoup
           EOF
