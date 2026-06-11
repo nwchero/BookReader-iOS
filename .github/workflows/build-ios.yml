@@ -73,8 +73,7 @@ jobs:
           xcodebuild -resolvePackageDependencies \
             -project BookReader.xcodeproj \
             -scheme BookReader \
-            -clonedSourcePackagesDirPath ../Packages \
-            -list || true
+            -platform iOS
 
       - name: Build App
         run: |
@@ -85,11 +84,11 @@ jobs:
             -configuration Release \
             -sdk iphoneos \
             -derivedDataPath build \
-            -clonedSourcePackagesDirPath ../Packages \
+            -clonedSourcePackagesDirPath build/.packages \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGN_IDENTITY="-" \
             PROVISIONING_PROFILE_SPECIFIER="" \
-            clean build 2>&1 | tail -30
+            clean build 2>&1 | tail -50
 
       - name: Check Build Output
         run: |
