@@ -92,10 +92,11 @@ final class TTSService: NSObject, AVSpeechSynthesizerDelegate {
 
     nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
         DispatchQueue.main.async { [weak self] in
-            if self?.currentUtteranceIndex >= self?.totalUtterances ?? 0 {
-                self?.isSpeaking = false
-                self?.isPaused = false
-                self?.onSpeakComplete?()
+            guard let self = self else { return }
+            if self.currentUtteranceIndex >= self.totalUtterances {
+                self.isSpeaking = false
+                self.isPaused = false
+                self.onSpeakComplete?()
             }
         }
     }
