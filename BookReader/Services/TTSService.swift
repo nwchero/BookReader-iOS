@@ -11,16 +11,16 @@ final class TTSService: NSObject, AVSpeechSynthesizerDelegate {
     var currentUtteranceIndex: Int = 0
     var totalUtterances: Int = 0
     var speechRate: Float = AVSpeechUtteranceDefaultSpeechRate
-    var voice: AVSynthesisVoice?
+    var voice: AVSpeechSynthesisVoice?
     var onSpeakComplete: (() -> Void)?
 
     override init() {
         super.init()
         synthesizer.delegate = self
-        voice = AVSynthesisVoice(language: "zh-CN")
-            ?? AVSynthesisVoice.speechVoices().first(where: { $0.language.hasPrefix("zh") })
-            ?? AVSynthesisVoice(language: "zh-Hans")
-            ?? AVSynthesisVoice.speechVoices().first
+        voice = AVSpeechSynthesisVoice(language: "zh-CN")
+            ?? AVSpeechSynthesisVoice.speechVoices().first(where: { $0.language.hasPrefix("zh") })
+            ?? AVSpeechSynthesisVoice(language: "zh-Hans")
+            ?? AVSpeechSynthesisVoice.speechVoices().first
     }
 
     func speak(text: String) {
@@ -109,16 +109,16 @@ final class TTSService: NSObject, AVSpeechSynthesizerDelegate {
 
     // MARK: - Available Voices
 
-    var availableVoices: [AVSynthesisVoice] {
-        AVSynthesisVoice.speechVoices()
+    var availableVoices: [AVSpeechSynthesisVoice] {
+        AVSpeechSynthesisVoice.speechVoices()
             .filter { $0.language.hasPrefix("zh") || $0.language.hasPrefix("en") || $0.language == "zh-CN" || $0.language == "zh-TW" || $0.language == "zh-Hans" || $0.language == "zh-Hant" }
     }
 
     func selectVoice(identifier: String?) {
         if let id = identifier {
-            voice = AVSynthesisVoice(identifier: id)
+            voice = AVSpeechSynthesisVoice(identifier: id)
         } else {
-            voice = AVSynthesisVoice(language: "zh-CN") ?? AVSynthesisVoice.speechVoices().first
+            voice = AVSpeechSynthesisVoice(language: "zh-CN") ?? AVSpeechSynthesisVoice.speechVoices().first
         }
     }
 }
