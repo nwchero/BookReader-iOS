@@ -114,10 +114,9 @@ struct SourcesView: View {
         NavigationStack {
             List {
                 Section("网络导入") {
-                    TextField("输入书源 JSON 地址", text: $importURL)
+                    TextField("输入书源 JSON 地址", text: $importURL, prompt: Text("https://example.com/shuyuan.json"))
                         .textInputAutocapitalization(.never)
                         .keyboardType(.URL)
-                        .placeholder(Text("https://example.com/shuyuan.json"))
 
                     Button(action: {
                         guard !importURL.isEmpty else { return }
