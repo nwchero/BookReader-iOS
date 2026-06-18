@@ -227,20 +227,23 @@ final class SourceParser {
             for selector in contentSelectors {
                 if let el = try? doc.select(selector).first(),
                    let text = try? el.text(), text.count > 50 {
-                    return cleanContent(html: el.html())
+                    let innerHtml = (try? el.html()) ?? ""
+                    return cleanContent(html: innerHtml)
                 }
             }
 
-            var body = try doc.body()
-            try body?.select("script, style, nav, header, footer, aside, .ad, .advertisement, .comment").remove()
+            if let body = try? doc.body() {
+                try? body.select("script, style, nav, header, footer, aside, .ad, .advertisement, .comment").remove()
 
-            let rawText = try body?.text() ?? ""
-            let paragraphs = rawText.components(separatedBy: "\n")
-                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-                .filter { $0.count > 5 }
-                .prefix(100)
+                let rawText = (try? body.text()) ?? ""
+                let paragraphs = rawText.components(separatedBy: "\n")
+                    .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+                    .filter { $0.count > 5 }
+                    .prefix(100)
 
-            return paragraphs.joined(separator: "\n\n")
+                return paragraphs.joined(separator: "\n\n")
+            }
+            return ""
         } catch {
             return ""
         }

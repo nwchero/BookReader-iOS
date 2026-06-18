@@ -313,14 +313,15 @@ struct ReaderView: View {
     }
 
     private var speedLabel: String {
-        let rate = viewModel.ttsSpeechRate
+        let rate = Double(viewModel.ttsSpeechRate)
+        let defaultRate = Double(AVSpeechUtteranceDefaultSpeechRate)
         switch rate {
         case ..<0.25: return "很慢"
         case 0.25..<0.4: return "慢"
         case 0.4..<0.5: return "较慢"
-        case 0.5..<AVSpeechUtteranceDefaultSpeechRate: return "正常偏慢"
-        case AVSpeechUtteranceDefaultSpeechRate: return "正常"
-        case (AVSpeechUtteranceDefaultSpeechRate + 0.01)...0.65: return "正常偏快"
+        case 0.5..<defaultRate: return "正常偏慢"
+        case defaultRate...defaultRate: return "正常"
+        case (defaultRate + 0.01)...0.65: return "正常偏快"
         case 0.65..<0.8: return "较快"
         default: return "快"
         }
