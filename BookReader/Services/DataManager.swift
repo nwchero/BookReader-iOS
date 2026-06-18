@@ -114,7 +114,8 @@ final class DataManager {
 
     func saveChapters(_ chapters: [Chapter]) {
         if let first = chapters.first {
-            let existingDescriptor = FetchDescriptor<Chapter>(predicate: #Predicate { $0.bookUrl == first.bookUrl })
+            let firstBookUrl = first.bookUrl
+            let existingDescriptor = FetchDescriptor<Chapter>(predicate: #Predicate { $0.bookUrl == firstBookUrl })
             if let existing = try? modelContext?.fetch(existingDescriptor) {
                 for item in existing {
                     modelContext?.delete(item)

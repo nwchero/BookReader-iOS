@@ -46,6 +46,25 @@ struct LegadoSource: Codable, Identifiable {
         self.searchUrl = try container.decodeIfPresent(String.self, forKey: .searchUrl)
         self.respondTime = try container.decodeIfPresent(Int.self, forKey: .respondTime)
     }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encodeIfPresent(bookSourceComment, forKey: .bookSourceComment)
+        try container.encodeIfPresent(bookSourceGroup, forKey: .bookSourceGroup)
+        try container.encode(bookSourceName, forKey: .bookSourceName)
+        try container.encode(bookSourceType, forKey: .bookSourceType)
+        try container.encode(bookSourceUrl, forKey: .bookSourceUrl)
+        try container.encodeIfPresent(bookUrlPattern, forKey: .bookUrlPattern)
+        try container.encode(enabled, forKey: .enabled)
+        try container.encodeIfPresent(header, forKey: .header)
+        try container.encodeIfPresent(ruleSearch, forKey: .ruleSearch)
+        try container.encodeIfPresent(ruleBookInfo, forKey: .ruleBookInfo)
+        try container.encodeIfPresent(ruleToc, forKey: .ruleToc)
+        try container.encodeIfPresent(ruleContent, forKey: .ruleContent)
+        try container.encodeIfPresent(searchUrl, forKey: .searchUrl)
+        try container.encodeIfPresent(respondTime, forKey: .respondTime)
+    }
 }
 
 struct LegadoRule: Codable {
