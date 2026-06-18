@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 struct ReaderView: View {
     let bookUrl: String

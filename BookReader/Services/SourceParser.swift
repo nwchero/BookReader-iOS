@@ -46,7 +46,7 @@ final class SourceParser {
 
     // MARK: - Search Result Parsing
 
-    private func parseSearchResult(html: String) -> [Book] {
+    func parseSearchResult(html: String) -> [Book] {
         var books: [Book] = []
         do {
             let doc = try SwiftSoup.parse(html)
@@ -93,8 +93,7 @@ final class SourceParser {
                     books.append(Book(
                         bookUrl: href,
                         title: text,
-                        author: "",
-                        sourceName: source.name
+                        author: ""
                     ))
                 }
             }
@@ -106,7 +105,7 @@ final class SourceParser {
 
     // MARK: - Detail Parsing
 
-    private func parseDetail(html: String, bookUrl: String) -> Book {
+    func parseDetail(html: String, bookUrl: String) -> Book {
         do {
             let doc = try SwiftSoup.parse(html)
 
@@ -140,19 +139,13 @@ final class SourceParser {
             let latestEls = try? doc.select("#info p:last-child, .latest-chapter, .newest").array()
             var latestChapter = ""
             if let last = latestEls?.last {
-                latestChapter = try? last.text().replacingOccurrences(of: "最新章节[：:]?", with: "", options: .regularExpression).trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+                latestChapter = (try? last.text().replacingOccurrences(of: "最新章节[：:]?", with: "", options: .regularExpression).trimmingCharacters(in: .whitespacesAndNewlines)) ?? ""
             }
 
             return Book(
                 bookUrl: bookUrl,
                 title: title.isEmpty ? "未知书名" : title,
-                author: author,
-                coverUrl: coverUrl ?? "",
-                descriptionText: descriptionText ?? "",
-                category: category,
-                status: status,
-                latestChapter: latestChapter,
-                sourceName: source.name
+                author: author
             )
         } catch {
             return Book(bookUrl: bookUrl, title: "加载失败")
@@ -161,7 +154,7 @@ final class SourceParser {
 
     // MARK: - Chapter List Parsing
 
-    private func parseChapterList(html: String, bookUrl: String) -> [Chapter] {
+    func parseChapterList(html: String, bookUrl: String) -> [Chapter] {
         var chapters: [Chapter] = []
         do {
             let doc = try SwiftSoup.parse(html)
@@ -195,7 +188,7 @@ final class SourceParser {
                     guard let href = try? link.absUrl("href"),
                           let text = try? link.text().trimmingCharacters(in: .whitespacesAndNewlines),
                           text.count >= 2 && text.count <= 50,
-                          !text.contains(matching: "首页|书架|目录") else { continue }
+                          text.range(of: "首页|书架|目录", options: .regularExpression) == nil else { continue }
 
                     chapters.append(Chapter(
                         bookUrl: bookUrl,
@@ -213,7 +206,7 @@ final class SourceParser {
 
     // MARK: - Content Parsing
 
-    private func parseContent(html: String) -> String {
+    func parseContent(html: String) -> String {
         do {
             let doc = try SwiftSoup.parse(html)
 

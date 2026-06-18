@@ -61,16 +61,20 @@ final class LegadoSourceParser {
                     let name = extractValue(from: element, rule: rule.name) ?? ""
                     let author = extractValue(from: element, rule: rule.author) ?? ""
                     let cover = extractAttribute(from: element, rule: rule.cover, attr: "src") ?? ""
-                    let href = extractAttribute(from: element, rule: rule.tocUrl, attr: "href")
-                        ?? try? element.absUrl("href") ?? ""
+                    let href: String
+                    if let extractedHref = extractAttribute(from: element, rule: rule.tocUrl, attr: "href") {
+                        href = extractedHref
+                    } else if let absHref = try? element.absUrl("href"), !absHref.isEmpty {
+                        href = absHref
+                    } else {
+                        href = ""
+                    }
 
                     if !name.isEmpty {
                         books.append(Book(
                             bookUrl: href,
                             title: name,
-                            author: author,
-                            coverUrl: cover,
-                            sourceName: source.name
+                            author: author
                         ))
                     }
                 }
@@ -102,12 +106,7 @@ final class LegadoSourceParser {
             return Book(
                 bookUrl: bookUrl,
                 title: title,
-                author: author,
-                coverUrl: cover,
-                descriptionText: intro,
-                category: kind,
-                latestChapter: lastChapter,
-                sourceName: source.name
+                author: author
             )
         } catch {
             return Book(bookUrl: bookUrl, title: "加载失败")
@@ -127,8 +126,14 @@ final class LegadoSourceParser {
 
                 for (index, element) in try elements.array().enumerated() {
                     let title = extractValue(from: element, rule: rule.name) ?? ""
-                    let href = extractAttribute(from: element, rule: rule.tocUrl, attr: "href")
-                        ?? try? element.absUrl("href") ?? ""
+                    let href: String
+                    if let extractedHref = extractAttribute(from: element, rule: rule.tocUrl, attr: "href") {
+                        href = extractedHref
+                    } else if let absHref = try? element.absUrl("href"), !absHref.isEmpty {
+                        href = absHref
+                    } else {
+                        href = ""
+                    }
 
                     if !title.isEmpty {
                         chapters.append(Chapter(

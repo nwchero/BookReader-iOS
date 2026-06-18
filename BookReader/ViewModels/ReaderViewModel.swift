@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import AVFoundation
 
 enum ReaderBackgroundType: String, CaseIterable, Identifiable {
     case light = "护眼黄"
@@ -62,7 +63,7 @@ final class ReaderViewModel {
     func loadChapters() {
         chapters = dataManager.getChapters(forBookUrl: bookUrl)
         if !chapters.isEmpty {
-            let index = min(initialChapterIndex, chapters.count - 1)
+            let index = min(currentChapterIndex, chapters.count - 1)
             loadChapterContent(at: index)
         }
     }

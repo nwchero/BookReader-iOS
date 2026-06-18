@@ -91,7 +91,7 @@ final class SourceImportService {
         } else if let jsonDict = json as? [String: Any] {
             let decoder = JSONDecoder()
             let jsonData = try JSONSerialization.data(withJSONObject: jsonDict)
-            return try decoder.decode(LegadoSource.self, from: jsonData).map { [$0] }.get() ?? []
+            return [try decoder.decode(LegadoSource.self, from: jsonData)]
         } else {
             throw ImportError.parseError
         }
