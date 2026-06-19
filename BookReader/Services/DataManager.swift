@@ -31,7 +31,8 @@ final class DataManager {
     }
 
     func getSourceById(id: UUID) -> BookSource? {
-        let descriptor = FetchDescriptor<BookSource>(predicate: #Predicate { $0.id == id })
+        let targetId = id
+        let descriptor = FetchDescriptor<BookSource>(predicate: #Predicate { $0.id == targetId })
         return try? modelContext?.fetch(descriptor).first
     }
 
@@ -56,13 +57,15 @@ final class DataManager {
     }
 
     func getBook(byUrl url: String) -> Book? {
-        let descriptor = FetchDescriptor<Book>(predicate: #Predicate { $0.bookUrl == url })
+        let targetUrl = url
+        let descriptor = FetchDescriptor<Book>(predicate: #Predicate { $0.bookUrl == targetUrl })
         return try? modelContext?.fetch(descriptor).first
     }
 
     func searchInBookshelf(query: String) -> [Book] {
+        let searchQuery = query
         let descriptor = FetchDescriptor<Book>(
-            predicate: #Predicate { $0.title.localizedStandardContains(query) || $0.author.localizedStandardContains(query) }
+            predicate: #Predicate { $0.title.localizedStandardContains(searchQuery) || $0.author.localizedStandardContains(searchQuery) }
         )
         return (try? modelContext?.fetch(descriptor)) ?? []
     }
@@ -105,8 +108,9 @@ final class DataManager {
     // MARK: - Chapter CRUD
 
     func getChapters(forBookUrl bookUrl: String) -> [Chapter] {
+        let targetBookUrl = bookUrl
         let descriptor = FetchDescriptor<Chapter>(
-            predicate: #Predicate { $0.bookUrl == bookUrl },
+            predicate: #Predicate { $0.bookUrl == targetBookUrl },
             sortBy: [SortDescriptor(\.order)]
         )
         return (try? modelContext?.fetch(descriptor)) ?? []
@@ -131,7 +135,8 @@ final class DataManager {
     // MARK: - ReadingProgress
 
     func getReadingProgress(forBookUrl bookUrl: String) -> ReadingProgress? {
-        let descriptor = FetchDescriptor<ReadingProgress>(predicate: #Predicate { $0.bookUrl == bookUrl })
+        let targetBookUrl = bookUrl
+        let descriptor = FetchDescriptor<ReadingProgress>(predicate: #Predicate { $0.bookUrl == targetBookUrl })
         return try? modelContext?.fetch(descriptor).first
     }
 
